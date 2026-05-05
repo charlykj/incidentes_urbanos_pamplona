@@ -1,17 +1,8 @@
-<<<<<<< HEAD
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
-import uuid
-
-=======
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
 import uuid
 
-
-# ─── Incidentes ────────────────────────────────────────────────────────────────
 
 class EstadoHistorial(BaseModel):
     estado: str
@@ -28,53 +19,25 @@ class MultimediaItem(BaseModel):
     usuario_id: str
 
 
->>>>>>> 5748750 (Proyecto pruebas para despliegue)
 class IncidenteCreate(BaseModel):
     ciudad: str
     zona: str
     categoria: str
     descripcion: str
-<<<<<<< HEAD
-    latitud: float
-    longitud: float
-    prioridad: str
-    usuario: str
-    url_evidencia: Optional[str] = None
-    entidad_asignada: Optional[str] = None
-
-=======
     direccion: str
     latitud: float
     longitud: float
     prioridad: str
     usuario_id: Optional[str] = "anonimo"
     usuario_nombre: str
-    multimedia: Optional[List[MultimediaItem]] = Field(default_factory=list, max_items=3)
+    multimedia: Optional[List[MultimediaItem]] = Field(default_factory=list)
     entidad_asignada: Optional[str] = None
 
 
->>>>>>> 5748750 (Proyecto pruebas para despliegue)
 class IncidenteUpdate(BaseModel):
     estado: Optional[str] = None
     prioridad: Optional[str] = None
     entidad_asignada: Optional[str] = None
-    url_evidencia: Optional[str] = None
-<<<<<<< HEAD
-
-class IncidenteResponse(BaseModel):
-    CiudadZona: str
-    FechaID: str
-    categoria: str
-    descripcion: str
-    latitud: float
-    longitud: float
-    prioridad: str
-    estado: str
-    fecha_creacion: str
-    usuario: str
-    url_evidencia: Optional[str] = None
-    entidad_asignada: Optional[str] = None
-=======
     observacion: Optional[str] = None
 
 
@@ -97,15 +60,14 @@ class EvidenciaRequest(BaseModel):
 
 
 class MergeRequest(BaseModel):
-    incidente_origen_id: str   # el que se absorbe
-    incidente_destino_id: str  # el que queda
+    incidente_origen_id: str
+    incidente_destino_id: str
     operador_id: str
     observacion: Optional[str] = ""
 
 
-# ─── Usuarios ──────────────────────────────────────────────────────────────────
-
 ROLES_VALIDOS = {"ciudadano", "operador", "supervisor", "admin"}
+
 
 class UsuarioRegister(BaseModel):
     nombre: str
@@ -135,18 +97,13 @@ class TokenResponse(BaseModel):
     usuario_id: str
 
 
-# ─── Audit ─────────────────────────────────────────────────────────────────────
-
 class AuditEntry(BaseModel):
     usuario_id: str
     usuario_nombre: str
-    accion: str   # creacion | edicion | cambio_estado | eliminacion | asignacion | validacion | fusion
+    accion: str
     entidad_id: str
     detalle: dict = {}
 
-
-# ─── Helpers ───────────────────────────────────────────────────────────────────
->>>>>>> 5748750 (Proyecto pruebas para despliegue)
 
 def build_keys(ciudad: str, zona: str, incident_id: str = None, fecha: str = None):
     pk = f"{ciudad}#{zona}"
