@@ -11,11 +11,7 @@ mock_table.put_item.return_value = {}
 mock_table.update_item.return_value = {}
 mock_table.delete_item.return_value = {}
 
-<<<<<<< HEAD
-with patch("db.dynamo.create_table_if_not_exists", return_value=None), \
-=======
 with patch("db.dynamo.create_all_tables", return_value=None), \
->>>>>>> 5748750 (Proyecto pruebas para despliegue)
      patch("db.dynamo.get_table", return_value=mock_table):
     from main import app
 
@@ -42,18 +38,11 @@ def test_crear_incidente():
             "zona": "Norte",
             "categoria": "alumbrado",
             "descripcion": "Poste caído en la calle 5",
-<<<<<<< HEAD
-            "latitud": 7.119349,
-            "longitud": -73.122741,
-            "prioridad": "alta",
-            "usuario": "ciudadano01",
-=======
             "direccion": "Calle 5",
             "latitud": 7.119349,
             "longitud": -73.122741,
             "prioridad": "alta",
             "usuario_nombre": "ciudadano01",
->>>>>>> 5748750 (Proyecto pruebas para despliegue)
         }
         response = client.post("/incidents/", json=payload)
         assert response.status_code == 201
@@ -61,22 +50,6 @@ def test_crear_incidente():
 
 
 def test_actualizar_incidente():
-<<<<<<< HEAD
-    with patch("routes.incidents.get_table", return_value=mock_table):
-        response = client.put(
-            "/incidents/Bucaramanga%23Norte/2024-01-01T00:00:00%23test-id",
-            json={"estado": "resuelto"},
-        )
-        assert response.status_code == 200
-
-
-def test_eliminar_incidente():
-    with patch("routes.incidents.get_table", return_value=mock_table):
-        response = client.delete(
-            "/incidents/Bucaramanga%23Norte/2024-01-01T00:00:00%23test-id"
-        )
-        assert response.status_code == 200
-=======
     from auth import create_token
     token = create_token({"usuario_id": "u1", "nombre": "Admin", "rol": "admin"})
     with patch("routes.incidents.get_table", return_value=mock_table):
@@ -99,4 +72,3 @@ def test_eliminar_incidente():
                 headers={"Authorization": f"Bearer {token}"}
             )
             assert response.status_code == 200
->>>>>>> 5748750 (Proyecto pruebas para despliegue)
