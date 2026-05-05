@@ -32,6 +32,8 @@ def test_listar_incidentes_vacio():
 
 
 def test_crear_incidente():
+    from auth import create_token
+    token = create_token({"usuario_id": "u1", "nombre": "ciudadano01", "rol": "ciudadano"})
     with patch("routes.incidents.get_table", return_value=mock_table):
         payload = {
             "ciudad": "Bucaramanga",
@@ -44,7 +46,11 @@ def test_crear_incidente():
             "prioridad": "alta",
             "usuario_nombre": "ciudadano01",
         }
-        response = client.post("/incidents/", json=payload)
+        response = client.post(
+            "/incidents/",
+            json=payload,
+            headers={"Authorization": f"Bearer {token}"}
+        )
         assert response.status_code == 201
         assert "id" in response.json()
 
